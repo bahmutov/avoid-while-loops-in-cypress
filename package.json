@@ -1,0 +1,17 @@
+{
+  "name": "avoid-while-loops-in-cypress",
+  "version": "1.0.0",
+  "description": "A small example showing how to use recursion to avoid JavaScript loops in Cypress",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "6.5.0",
+    "cypress-wait-until": "1.7.1"
+  }
+}
