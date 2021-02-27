@@ -29,3 +29,21 @@ it('yields 7 from the task', () => {
 
   checkNumber()
 })
+
+it('yields 7 from the task (recursive)', () => {
+  const recurse = (commandsFn, checkFn) => {
+    commandsFn().then((x) => {
+      if (checkFn(x)) {
+        cy.log('**NICE!**')
+        return
+      }
+
+      recurse(commandsFn, checkFn)
+    })
+  }
+
+  recurse(
+    () => cy.task('randomNumber'),
+    (n) => n === 7,
+  )
+})
