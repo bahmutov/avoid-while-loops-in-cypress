@@ -1,3 +1,4 @@
+// @ts-check
 /// <reference types="cypress" />
 
 it.skip('yields 7 from the task (mostly fails)', () => {
@@ -164,5 +165,65 @@ it('yields 7 from the task (options object)', () => {
     () => cy.task('randomNumber', null, { log: false }),
     (n) => n === 7,
     { timeRemaining: 10000, log: true },
+  )
+})
+
+it.only('yields 7 from the task (options object with types)', () => {
+  /**
+   * @typedef {object} RecurseOptions
+   * @property {number=} limit The max number of iterations
+   * @property {number=} timeRemaining In milliseconds
+   * @property {boolean=} log Log to Command Log
+   */
+  /**
+   * Recursively calls the given command until the predicate is true.
+   * @param {() => Cypress.Chainable} commandsFn
+   * @param {(any) => boolean} checkFn
+   * @param {RecurseOptions} options
+   */
+  function recurse(commandsFn, checkFn, options = {}) {
+    Cypress._.defaults(options, {
+      limit: 30,
+      timeRemaining: 30000,
+      log: true,
+    })
+    const started = +new Date()
+
+    if (options.limit < 0) {
+      throw new Error('Recursion limit reached')
+    }
+    if (options.log) {
+      cy.log(`remaining attempts **${options.limit}**`)
+    }
+
+    if (options.timeRemaining < 0) {
+      throw new Error('Max time limit reached')
+    }
+    if (options.log) {
+      cy.log(`time remaining **${options.timeRemaining}**`)
+    }
+
+    commandsFn().then((x) => {
+      if (checkFn(x)) {
+        if (options.log) {
+          cy.log('**NICE!**')
+        }
+        return
+      }
+
+      const finished = +new Date()
+      const elapsed = finished - started
+      recurse(commandsFn, checkFn, {
+        timeRemaining: options.timeRemaining - elapsed,
+        limit: options.limit - 1,
+        log: options.log,
+      })
+    })
+  }
+
+  recurse(
+    () => cy.task('randomNumber', null, { log: false }),
+    (n) => n === 7,
+    { timeRemaining: 10000, log: true, limit: 60 },
   )
 })

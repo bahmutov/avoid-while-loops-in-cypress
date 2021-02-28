@@ -139,7 +139,7 @@ it('logs iteration (options object)', () => {
   )
 })
 
-it.only('logs iteration (options object with types)', () => {
+it('logs iteration (options object with types)', () => {
   // define types for the recurse options using JSDoc comments
   // https://glebbahmutov.com/blog/trying-typescript/#types-from-jsdoc
 

@@ -6,6 +6,7 @@ In the [plugins file](./cypress/plugins/index.js) we have a task that returns a 
 ![Repeating cy.task command until we get number 7](./images/number7.png)
 
 ## Videos
+
 I have explained the solution to this problem and refactored it several times to add more features, see the following videos
 
 1. [Call cy task until it returns an expected value](https://youtu.be/r8_hFwYAo5c)
@@ -13,6 +14,7 @@ I have explained the solution to this problem and refactored it several times to
 3. [Reusable function with attempts limit](https://www.youtube.com/watch?v=I1oNKD6NNjg)
 4. [Recursion function with time limit](https://www.youtube.com/watch?v=Cn8Ubhd49Gw)
 5. [Convert recurse to use options object](https://youtu.be/DeMRtTD5p7s)
+6. [Add JSDoc types to the options parameter](https://youtu.be/g4qispkHH-o)
 
 ## See also
 
