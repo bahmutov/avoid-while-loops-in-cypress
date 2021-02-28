@@ -118,3 +118,51 @@ it('yields 7 from the task (time limit)', () => {
     10000,
   )
 })
+
+it('yields 7 from the task (options object)', () => {
+  const recurse = (commandsFn, checkFn, options = {}) => {
+    Cypress._.defaults(options, {
+      limit: 30,
+      timeRemaining: 30000,
+      log: true,
+    })
+    const started = +new Date()
+
+    if (options.limit < 0) {
+      throw new Error('Recursion limit reached')
+    }
+    if (options.log) {
+      cy.log(`remaining attempts **${options.limit}**`)
+    }
+
+    if (options.timeRemaining < 0) {
+      throw new Error('Max time limit reached')
+    }
+    if (options.log) {
+      cy.log(`time remaining **${options.timeRemaining}**`)
+    }
+
+    commandsFn().then((x) => {
+      if (checkFn(x)) {
+        if (options.log) {
+          cy.log('**NICE!**')
+        }
+        return
+      }
+
+      const finished = +new Date()
+      const elapsed = finished - started
+      recurse(commandsFn, checkFn, {
+        timeRemaining: options.timeRemaining - elapsed,
+        limit: options.limit - 1,
+        log: options.log,
+      })
+    })
+  }
+
+  recurse(
+    () => cy.task('randomNumber', null, { log: false }),
+    (n) => n === 7,
+    { timeRemaining: 10000, log: true },
+  )
+})
