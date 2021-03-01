@@ -3,6 +3,7 @@
 
 // https://github.com/NoriSte/cypress-wait-until
 import 'cypress-wait-until'
+import { recurse } from 'cypress-recurse'
 
 it.skip('yields 7 from the task (mostly fails)', () => {
   cy.task('randomNumber').should('equal', 7)
@@ -194,6 +195,16 @@ it('logs iteration (options object with types)', () => {
     {
       remainingAttempts: 50,
       timeout: 3000,
+    },
+  )
+})
+
+it('uses cypress-recurse with timeout', () => {
+  recurse(
+    () => cy.task('randomNumber'),
+    (n) => n === 7,
+    {
+      timeout: 30000,
     },
   )
 })
