@@ -5,6 +5,10 @@ In the [plugins file](./cypress/plugins/index.js) we have a task that returns a 
 
 ![Repeating cy.task command until we get number 7](./images/number7.png)
 
+## cypress-recurse
+
+I have made this code into a reusable function, available on NPM under `cypress-recurse`. See the repository [bahmutov/cypress-recurse](https://github.com/bahmutov/cypress-recurse).
+
 ## Videos
 
 I have explained the solution to this problem and refactored it several times to add more features, see the following videos
